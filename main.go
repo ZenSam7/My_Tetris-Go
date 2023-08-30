@@ -14,15 +14,18 @@ const (
 	width_menu  = cell_size * 5  // Ширина поля для дополнительй информации
 	height_wind = cell_size * 16 // Высота экрана
 
-	// Начальная скорость игры (1 раз во сколько миллисекунд)
+	// Начальная скорость игры (каждые __ миллисекунд спускаем фигуру на 1)
 	game_speed   = 500
 	speed_factor = 0.98 // ВО сколько раз уменьшаем скорость
 
-	speed_move_figure  = 60  // Скорость движения фигуры по нажатию на кнопки (в миллисекундах)
+	speed_move_figure  = 90  // Скорость движения фигуры по нажатию на кнопки (в миллисекундах)
 	time_keydown_space = 300 // Отдельно для space (из-за его применения)
+	time_rotate        = 300 // Отдельно для space (я так хочу)
 )
 
-var GAME_OVER = false
+var (
+	GAME_OVER = false
+)
 
 // Добавляем асинхронность (это же Go)
 var wg = sync.WaitGroup{}
@@ -35,6 +38,8 @@ func (g *Game) Update() error {
 	if !GAME_OVER {
 		Control_figure()
 	}
+
+	Exit_and_restart()
 
 	return nil
 }
