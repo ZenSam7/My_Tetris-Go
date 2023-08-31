@@ -18,8 +18,20 @@ var (
 
 // Создаём новую фигуру для управления
 func Random_figure_now() {
-	figure_now = list_of_figurs[rand.Intn(7)]
+	// Обнуляем
+	figure_now = Figure{}
 	index_rotate = 0
+	// Создаём новую фигуру (делаем глубокую копию)
+	for _, rotate := range list_of_figurs[rand.Intn(7)].rotates {
+		new_figure_form := Figure_form{}
+		// Делаем копию Figure_form
+		for i, cell := range rotate.form {
+			new_cell := Cell{cell.x, cell.y, cell.color}
+			new_figure_form.form[i] = new_cell
+		}
+
+		figure_now.rotates = append(figure_now.rotates, new_figure_form)
+	}
 
 	// Сдвигаем фугуру к центру
 	for i := 0; i < (width_area/cell_size)/2-1; i++ {
@@ -47,7 +59,7 @@ func Control_figure() {
 	time_now := time.Now().UnixMilli()
 
 	// Постепенно спускаем фигуру
-	if time_now >= timer_for_falling+game_speed {
+	if time_now >= timer_for_falling+int64(game_speed) {
 		figure_now.Move_down()
 		timer_for_falling = time_now
 	}
@@ -81,7 +93,7 @@ func Control_figure() {
 
 	// Когда нажимаем пробел, двигаем вниз до упора
 	if ebiten.IsKeyPressed(ebiten.KeySpace) && time_now >= timer_for_KeySpace+time_keydown_space {
-		was_collision := figure_now.Move_down()
+		was_collision := false
 		for !was_collision {
 			was_collision = figure_now.Move_down()
 		}
@@ -113,13 +125,56 @@ func Collision() {
 		fallen_cells = append(fallen_cells, cell)
 	}
 
-	// Собралась ли полная линия
-	// ...
-
 	Random_figure_now()
+
+	// Собралась ли полная линия
+	for num_row := 0; num_row < height_wind; num_row += cell_size {
+		num_cells_in_row := 0 // Количество клеток в ряду num_row
+
+		for _, fallen_cell := range fallen_cells {
+			if fallen_cell.y == num_row {
+				num_cells_in_row += 1
+			}
+		}
+
+		// Если собрался полный ряд
+		if num_cells_in_row == width_area/cell_size {
+			Collecting_row(num_row)
+		}
+	}
 }
 
 // Когда закончили игру
 func Game_over() {
 	GAME_OVER = true
+}
+
+func Collecting_row(num_row int) {
+	// Ускоряем игру
+	game_speed = int(float32(game_speed) * speed_factor)
+
+	// Увеличиваем счётчик
+	game_score += 1
+
+	ind_cells_in_row := []int{} // Индексы всех клеток в полном ряду
+	// Добавляем индексы всех клеток на удаление
+	for ind, fallen_cell := range fallen_cells {
+		if fallen_cell.y == num_row {
+			ind_cells_in_row = append(ind_cells_in_row, ind)
+		}
+	}
+
+	// Удаляем
+	for bias, ind := range ind_cells_in_row {
+		fallen_cells = append(fallen_cells[:ind-bias], fallen_cells[ind-bias+1:]...)
+	}
+
+	// Сдвигаем все клетки сверху
+	for i, fallen_cell := range fallen_cells {
+		if fallen_cell.y <= num_row {
+			new_cell := fallen_cell
+			new_cell.y += cell_size
+			fallen_cells[i] = new_cell
+		}
+	}
 }

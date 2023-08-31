@@ -16,6 +16,7 @@ require (
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
 	github.com/go-gl/mathgl v0.0.0-20190416160123-c4601bc793c7 // indirect
 	github.com/jezek/xgb v1.1.0 // indirect
+	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
 	golang.org/x/exp/shiny v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mobile v0.0.0-20230818142238-7088062f872d // indirect
