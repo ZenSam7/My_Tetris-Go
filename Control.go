@@ -8,29 +8,34 @@ import (
 )
 
 var (
-	// Дополнительно
+	// Разные таймеры
 	timer_for_falling  = time.Now().UnixMilli()
 	timer_for_move     = time.Now().UnixMilli()
 	timer_for_KeySpace = time.Now().UnixMilli()
 	timer_for_rotate   = time.Now().UnixMilli()
 	timer_for_restart  = time.Now().UnixMilli()
+
+	// Можно ли использовать кармашек
+	can_use_pocket = true
 )
 
 // Создаём новую фигуру для управления
 func Random_figure_now() {
-	// Обнуляем
-	figure_now = Figure{}
-	index_rotate = 0
-	// Создаём новую фигуру (делаем глубокую копию)
-	for _, rotate := range list_of_figurs[rand.Intn(7)].rotates {
-		new_figure_form := Figure_form{}
-		// Делаем копию Figure_form
-		for i, cell := range rotate.form {
-			new_cell := Cell{cell.x, cell.y, cell.color}
-			new_figure_form.form[i] = new_cell
-		}
 
-		figure_now.rotates = append(figure_now.rotates, new_figure_form)
+	// Изменение в следующей и текущей фигуре, а значить перерисовываем всё
+	change_in_area = true
+	change_in_menu = true
+
+	index_rotate = 0
+
+	can_use_pocket = true
+
+	// Создаём новую следущую фигуру
+	// При условии, что она не равна предыдущей фигуре
+	// (я это сделал чтобы небыло последовательностей одинаковых фигур, которые сильно усложняют)
+	figure_now = next_figure
+	for next_figure.name == figure_now.name {
+		next_figure = Deep_copy_figure(list_of_figures[rand.Intn(7)])
 	}
 
 	// Сдвигаем фугуру к центру
@@ -39,23 +44,13 @@ func Random_figure_now() {
 	}
 
 	// Если новая фигура появляется в уже упавшей, то мы проиграли
-	for _, fallen_cell := range fallen_cells {
-		for _, figure_cell := range figure_now.rotates[index_rotate].form {
-			wg.Add(1)
-			go func(fallen_cell, figure_cell Cell) {
-				if fallen_cell.x == figure_cell.x &&
-					fallen_cell.y == figure_cell.y {
-					Game_over()
-				}
-				wg.Done()
-			}(fallen_cell, figure_cell)
-		}
+	if Rotate_in_fallen_cells(figure_now.rotates[0]) {
+		Game_over()
 	}
-	wg.Wait()
 }
 
 // Всячески двигаем фигуру
-func Control_figure() {
+func Control() {
 	time_now := time.Now().UnixMilli()
 
 	// Постепенно спускаем фигуру
@@ -99,9 +94,53 @@ func Control_figure() {
 		}
 		timer_for_KeySpace = time_now
 	}
+
+	// Используем кармашек
+	if (ebiten.IsKeyPressed(ebiten.KeyShift) ||
+		ebiten.IsKeyPressed(ebiten.KeyShiftRight) ||
+		ebiten.IsKeyPressed(ebiten.KeyShiftLeft)) &&
+		time_now >= timer_for_rotate+time_keydown_space &&
+		can_use_pocket {
+
+		change_in_menu = true
+		timer_for_rotate = time_now
+		index_rotate = 0
+
+		// Изменение в фигуре из кармашка, а значить перерисовываем меню
+		Draw_menu()
+
+		// Нельзя использовать кармашек второй раз, пока фигура не упала
+		can_use_pocket = false
+
+		// Если фигуры нет, то добавляем
+		if figure_in_pocket == "" {
+			figure_in_pocket = figure_now.name
+			Random_figure_now()
+
+		} else { // Если фигура есть, то меняем
+			// Ищем фигуру из кармашка в списке фигур
+			for _, find_figure := range list_of_figures {
+				if find_figure.name == figure_in_pocket {
+					// Меняем местами
+					figure_in_pocket = figure_now.name
+					figure_now = Deep_copy_figure(find_figure)
+
+					// Сдвигаем фугуру к центру
+					for i := 0; i < (width_area/cell_size)/2-1; i++ {
+						figure_now.Move_right()
+					}
+
+					break
+				}
+			}
+		}
+
+		timer_for_restart = time_now
+	}
+
 }
 
-// Надо отделить от контроля фигуры (см. как работает GAME_OVER)
+// Надо отделить от контроля фигуры (см. как работает game_over)
 func Exit_and_restart() {
 	// Закрываем прогу
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
@@ -111,8 +150,11 @@ func Exit_and_restart() {
 	// Рестартим
 	if ebiten.IsKeyPressed(ebiten.KeyR) && (time.Now().UnixMilli() >= timer_for_restart+1000) {
 		fallen_cells = []Cell{}
+		game_over = false
+		game_score = 0
+		game_speed = const_game_speed
+		figure_in_pocket = ""
 		Random_figure_now()
-		GAME_OVER = false
 
 		timer_for_restart = time.Now().UnixMilli()
 	}
@@ -124,8 +166,6 @@ func Collision() {
 	for _, cell := range figure_now.rotates[index_rotate].form {
 		fallen_cells = append(fallen_cells, cell)
 	}
-
-	Random_figure_now()
 
 	// Собралась ли полная линия
 	for num_row := 0; num_row < height_wind; num_row += cell_size {
@@ -142,13 +182,16 @@ func Collision() {
 			Collecting_row(num_row)
 		}
 	}
+
+	Random_figure_now()
 }
 
 // Когда закончили игру
 func Game_over() {
-	GAME_OVER = true
+	game_over = true
 }
 
+// Что делаем когда ряд собран
 func Collecting_row(num_row int) {
 	// Ускоряем игру
 	game_speed = int(float32(game_speed) * speed_factor)
@@ -177,4 +220,26 @@ func Collecting_row(num_row int) {
 			fallen_cells[i] = new_cell
 		}
 	}
+}
+
+// Создаём глубокую копию фигуры (фактически новую фигуру)
+func Deep_copy_figure(figure Figure) Figure {
+	new_figure := Figure{}
+
+	// Делаем копию каждого поворота
+	for _, rotate := range figure.rotates {
+		new_figure_form := Figure_form{}
+
+		// Делаем копию каждого Figure_form
+		for i, cell := range rotate.form {
+			new_cell := Cell{cell.x, cell.y, cell.color}
+			new_figure_form.form[i] = new_cell
+		}
+
+		// Добавляем поворот
+		new_figure.rotates = append(new_figure.rotates, new_figure_form)
+	}
+	new_figure.name = figure.name
+
+	return new_figure
 }

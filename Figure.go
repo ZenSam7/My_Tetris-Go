@@ -6,54 +6,54 @@ import (
 
 var (
 	// Объявляем фигуры
-	c              = cell_size // Для краткости
-	list_of_figurs = [7]Figure{
-		// O
-		{[]Figure_form{
-			{[4]Cell{{0, 0, color_yellow}, {c, 0, color_yellow}, {0, c, color_yellow}, {c, c, color_yellow}}}, // Поворот 0
-		}},
+	c               = cell_size // Для краткости
+	list_of_figures = [7]Figure{
+		{name: "O",
+			rotates: []Figure_form{
+				{[4]Cell{{0, 0, color_yellow}, {c, 0, color_yellow}, {0, c, color_yellow}, {c, c, color_yellow}}}, // Поворот 0
+			}},
 
-		// L
-		{[]Figure_form{
-			{[4]Cell{{0, 0, color_gray}, {0, c, color_gray}, {0, 2 * c, color_gray}, {c, 2 * c, color_gray}}}, // Поворот 0
-			{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {2 * c, 0, color_gray}, {0, c, color_gray}}},     // Поворот 1
-			{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {c, c, color_gray}, {c, 2 * c, color_gray}}},     // Поворот 2
-			{[4]Cell{{0, c, color_gray}, {c, c, color_gray}, {2 * c, c, color_gray}, {2 * c, 0, color_gray}}}, // Поворот 3
-		}},
+		{name: "L",
+			rotates: []Figure_form{
+				{[4]Cell{{0, 0, color_gray}, {0, c, color_gray}, {0, 2 * c, color_gray}, {c, 2 * c, color_gray}}}, // Поворот 0
+				{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {2 * c, 0, color_gray}, {0, c, color_gray}}},     // Поворот 1
+				{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {c, c, color_gray}, {c, 2 * c, color_gray}}},     // Поворот 2
+				{[4]Cell{{0, c, color_gray}, {c, c, color_gray}, {2 * c, c, color_gray}, {2 * c, 0, color_gray}}}, // Поворот 3
+			}},
 
-		// J
-		{[]Figure_form{
-			{[4]Cell{{c, 0, color_blue}, {c, c, color_blue}, {c, 2 * c, color_blue}, {0, 2 * c, color_blue}}}, // Поворот 0
-			{[4]Cell{{0, 0, color_blue}, {0, c, color_blue}, {c, c, color_blue}, {2 * c, c, color_blue}}},     // Поворот 1
-			{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {0, c, color_blue}, {0, 2 * c, color_blue}}},     // Поворот 2
-			{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {2 * c, 0, color_blue}, {2 * c, c, color_blue}}}, // Поворот 3
-		}},
+		{name: "J",
+			rotates: []Figure_form{
+				{[4]Cell{{c, 0, color_blue}, {c, c, color_blue}, {c, 2 * c, color_blue}, {0, 2 * c, color_blue}}}, // Поворот 0
+				{[4]Cell{{0, 0, color_blue}, {0, c, color_blue}, {c, c, color_blue}, {2 * c, c, color_blue}}},     // Поворот 1
+				{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {0, c, color_blue}, {0, 2 * c, color_blue}}},     // Поворот 2
+				{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {2 * c, 0, color_blue}, {2 * c, c, color_blue}}}, // Поворот 3
+			}},
 
-		// I
-		{[]Figure_form{
-			{[4]Cell{{0, 0, color_goluboy}, {0, c, color_goluboy}, {0, 2 * c, color_goluboy}, {0, 3 * c, color_goluboy}}}, // Поворот 0
-			{[4]Cell{{0, 0, color_goluboy}, {c, 0, color_goluboy}, {2 * c, 0, color_goluboy}, {3 * c, 0, color_goluboy}}}, // Поворот 1
-		}},
+		{name: "I",
+			rotates: []Figure_form{
+				{[4]Cell{{0, 0, color_goluboy}, {0, c, color_goluboy}, {0, 2 * c, color_goluboy}, {0, 3 * c, color_goluboy}}}, // Поворот 0
+				{[4]Cell{{0, 0, color_goluboy}, {c, 0, color_goluboy}, {2 * c, 0, color_goluboy}, {3 * c, 0, color_goluboy}}}, // Поворот 1
+			}},
 
-		// T
-		{[]Figure_form{
-			{[4]Cell{{0, 0, color_violet}, {c, 0, color_violet}, {2 * c, 0, color_violet}, {c, c, color_violet}}}, // Поворот 0
-			{[4]Cell{{c, 0, color_violet}, {c, c, color_violet}, {c, 2 * c, color_violet}, {0, c, color_violet}}}, // Поворот 1
-			{[4]Cell{{c, 0, color_violet}, {0, c, color_violet}, {c, c, color_violet}, {2 * c, c, color_violet}}}, // Поворот 2
-			{[4]Cell{{0, 0, color_violet}, {0, c, color_violet}, {0, 2 * c, color_violet}, {c, c, color_violet}}}, // Поворот 3
-		}},
+		{name: "T",
+			rotates: []Figure_form{
+				{[4]Cell{{0, 0, color_violet}, {c, 0, color_violet}, {2 * c, 0, color_violet}, {c, c, color_violet}}}, // Поворот 0
+				{[4]Cell{{c, 0, color_violet}, {c, c, color_violet}, {c, 2 * c, color_violet}, {0, c, color_violet}}}, // Поворот 1
+				{[4]Cell{{c, 0, color_violet}, {0, c, color_violet}, {c, c, color_violet}, {2 * c, c, color_violet}}}, // Поворот 2
+				{[4]Cell{{0, 0, color_violet}, {0, c, color_violet}, {0, 2 * c, color_violet}, {c, c, color_violet}}}, // Поворот 3
+			}},
 
-		// Z
-		{[]Figure_form{
-			{[4]Cell{{0, 0, color_red}, {c, 0, color_red}, {c, c, color_red}, {2 * c, c, color_red}}}, // Поворот 0
-			{[4]Cell{{c, 0, color_red}, {c, c, color_red}, {0, c, color_red}, {0, 2 * c, color_red}}}, // Поворот 1
-		}},
+		{name: "Z",
+			rotates: []Figure_form{
+				{[4]Cell{{0, 0, color_red}, {c, 0, color_red}, {c, c, color_red}, {2 * c, c, color_red}}}, // Поворот 0
+				{[4]Cell{{c, 0, color_red}, {c, c, color_red}, {0, c, color_red}, {0, 2 * c, color_red}}}, // Поворот 1
+			}},
 
-		// S
-		{[]Figure_form{
-			{[4]Cell{{0, c, color_green}, {c, c, color_green}, {c, 0, color_green}, {2 * c, 0, color_green}}}, // Поворот 0
-			{[4]Cell{{0, 0, color_green}, {0, c, color_green}, {c, c, color_green}, {c, 2 * c, color_green}}}, // Поворот 1
-		}},
+		{name: "S",
+			rotates: []Figure_form{
+				{[4]Cell{{0, c, color_green}, {c, c, color_green}, {c, 0, color_green}, {2 * c, 0, color_green}}}, // Поворот 0
+				{[4]Cell{{0, 0, color_green}, {0, c, color_green}, {c, c, color_green}, {c, 2 * c, color_green}}}, // Поворот 1
+			}},
 	}
 
 	figure_now = Figure{}
@@ -75,11 +75,15 @@ type Figure_form struct {
 }
 
 type Figure struct {
+	name    string
 	rotates []Figure_form
 }
 
 // Сдвигаем вниз
 func (f *Figure) Move_down() (was_collision bool) {
+	// Изменение текущей фигуры, перерисовываем рабочий экран
+	change_in_area = true
+
 	was_collision = false
 	// Сдвигаем все повороты вниз
 	// Все, кроме текущего поворота, делаем невидимым для упавших клеток
@@ -135,6 +139,9 @@ func Move_down_rotate(rotate *Figure_form) (was_collision bool) {
 
 // Сдвигаем влево
 func (f *Figure) Move_left() {
+	// Изменение текущей фигуры, перерисовываем рабочий экран
+	change_in_area = true
+
 	// Сдвигаем каждый поворот влево
 	for i, rotate := range f.rotates {
 		possible_move_left := true
@@ -172,6 +179,9 @@ func (f *Figure) Move_left() {
 
 // Сдвигаем вправо
 func (f *Figure) Move_right() {
+	// Изменение текущей фигуры, перерисовываем рабочий экран
+	change_in_area = true
+
 	// Сдвигаем все повороты вправо
 	for i, rotate := range f.rotates {
 		possible_move_right := true
@@ -229,6 +239,9 @@ func Rotate_in_fallen_cells(rotate Figure_form) bool {
 
 // Поворачиваем фигуру
 func (f *Figure) Rotate() {
+	// Изменение текущей фигуры, перерисовываем рабочий экран
+	change_in_area = true
+
 	rotated_figure := figure_now.rotates[(index_rotate+1)%len(figure_now.rotates)]
 
 	// Поворачиваем, если не задевает упавшие клетки

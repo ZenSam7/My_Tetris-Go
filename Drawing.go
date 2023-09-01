@@ -11,10 +11,9 @@ import (
 )
 
 var (
-	screen *ebiten.Image
-
-	text_size = 30
-	text_dpi  = 80 // Типа размер текста (что это?)
+	screen         *ebiten.Image
+	change_in_area = true
+	change_in_menu = true
 
 	// Цвета
 	color_background = color.RGBA{30, 40, 50, 255}
@@ -56,7 +55,7 @@ func Draw_grid() {
 }
 
 // Выводим текст (точка находится слева снизу, а не слева сверху)
-func Display_text(TEXT string, x, y int) {
+func Display_text(TEXT string, x, y int, color color.RGBA) {
 	tt, _ := opentype.Parse(fonts.MPlus1pRegular_ttf)
 	mplusNormalFont, _ := opentype.NewFace(tt, &opentype.FaceOptions{
 		Size:    float64(text_size),
@@ -64,7 +63,7 @@ func Display_text(TEXT string, x, y int) {
 		Hinting: font.HintingVertical,
 	})
 
-	text.Draw(screen, TEXT, mplusNormalFont, x, y, color_text)
+	text.Draw(screen, TEXT, mplusNormalFont, x, y, color)
 }
 
 // Рисуем фигуру полностью (сразу вместе с тенью)
@@ -84,7 +83,25 @@ func Draw_figure(figure Figure) {
 func (g *Game) Draw(display *ebiten.Image) {
 	screen = display
 
-	screen.Fill(color_background)
+	// Рисуем весь экран не 60 раз в секуну, а только когда происходят изменения
+	// Плчему бы не вызывать функции сразу, когда что-то меняется?
+	// Потому что библиотека от этого ломается
+
+	if change_in_area {
+		change_in_area = false
+		Draw_game_area()
+	}
+	if change_in_menu {
+		change_in_menu = false
+		Draw_menu()
+	}
+}
+
+// Рисуем весь экран не 60 раз в секуну, а только когда происходят изменения
+func Draw_game_area() {
+	// Заливка
+	ebitenutil.DrawRect(screen, 0.0, 0.0, width_area, height_wind, color_background)
+
 	Draw_figure(figure_now)
 
 	// Рисуем упавшие клетки
@@ -92,12 +109,11 @@ func (g *Game) Draw(display *ebiten.Image) {
 		Draw_square(fallen_cell)
 	}
 
-	Display_text("Hello, World♥", width_area, 2*cell_size)
 	Draw_grid()
 
 	// Когда игра закончилась
-	if GAME_OVER {
-		Display_text("GAME OVER", width_area/3, height_wind/2)
+	if game_over {
+		Display_game_over()
 	}
 }
 
