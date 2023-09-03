@@ -199,7 +199,7 @@ func Collecting_row(num_row int) {
 	// Увеличиваем счётчик
 	game_score += 1
 
-	ind_cells_in_row := []int{} // Индексы всех клеток в полном ряду
+	var ind_cells_in_row []int // Индексы всех клеток в полном ряду
 	// Добавляем индексы всех клеток на удаление
 	for ind, fallen_cell := range fallen_cells {
 		if fallen_cell.y == num_row {

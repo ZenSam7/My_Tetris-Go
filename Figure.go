@@ -62,7 +62,7 @@ var (
 	index_rotate = 0
 
 	// Записываем все упавшие клетки
-	fallen_cells = []Cell{}
+	fallen_cells []Cell
 )
 
 type Cell struct {

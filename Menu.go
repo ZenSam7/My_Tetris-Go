@@ -15,7 +15,7 @@ var (
 
 // Запускается когда игра закончилась (выводим GAME OVER)
 func Display_game_over() {
-	Display_text("GAME OVER", width_area/3, height_wind/2, color.RGBA{255, 255, 255, 255})
+	Display_text("GAME OVER", width_area/3, height_wind/2, color.RGBA{R: 255, G: 255, B: 255, A: 255})
 }
 
 // Выводим всю информацию для меню

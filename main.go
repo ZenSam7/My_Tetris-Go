@@ -67,5 +67,8 @@ func main() {
 	// когда происходят видимые изменения
 	ebiten.SetScreenClearedEveryFrame(false)
 
-	ebiten.RunGame(game)
+	err := ebiten.RunGame(game)
+	if err != nil {
+		return
+	}
 }

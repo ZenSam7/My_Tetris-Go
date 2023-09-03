@@ -16,18 +16,18 @@ var (
 	change_in_menu = true
 
 	// Цвета
-	color_background = color.RGBA{30, 40, 50, 255}
-	color_shadow     = color.RGBA{40, 50, 60, 255}
-	color_grid       = color.RGBA{120, 120, 130, 255}
-	color_text       = color.RGBA{150, 170, 170, 255}
+	color_background = color.RGBA{R: 30, G: 40, B: 50, A: 255}
+	color_shadow     = color.RGBA{R: 40, G: 50, B: 60, A: 255}
+	color_grid       = color.RGBA{R: 120, G: 120, B: 130, A: 255}
+	color_text       = color.RGBA{R: 150, G: 170, B: 170, A: 255}
 
-	color_red     = color.RGBA{150, 50, 60, 255}
-	color_blue    = color.RGBA{50, 80, 120, 255}
-	color_yellow  = color.RGBA{130, 130, 50, 255}
-	color_green   = color.RGBA{40, 110, 80, 255}
-	color_violet  = color.RGBA{110, 40, 120, 255}
-	color_goluboy = color.RGBA{60, 130, 150, 255}
-	color_gray    = color.RGBA{80, 80, 100, 255}
+	color_red     = color.RGBA{R: 150, G: 50, B: 60, A: 255}
+	color_blue    = color.RGBA{R: 50, G: 80, B: 120, A: 255}
+	color_yellow  = color.RGBA{R: 130, G: 130, B: 50, A: 255}
+	color_green   = color.RGBA{R: 40, G: 110, B: 80, A: 255}
+	color_violet  = color.RGBA{R: 110, G: 40, B: 120, A: 255}
+	color_goluboy = color.RGBA{R: 60, G: 130, B: 150, A: 255}
+	color_gray    = color.RGBA{R: 80, G: 80, B: 100, A: 255}
 )
 
 // Рисуем квадрат (клетку)
