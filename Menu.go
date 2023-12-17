@@ -7,52 +7,52 @@ import (
 )
 
 var (
-	next_figure      = Figure{}
-	figure_in_pocket = Figure{}.name
+	nextFigure     = Figure{}
+	figureInPocket = Figure{}.name
 
 	//time_start_game = time.Now()
 )
 
-// Запускается когда игра закончилась (выводим GAME OVER)
-func Display_game_over() {
-	Display_text("GAME OVER", width_area/3, height_wind/2, color.RGBA{255, 255, 255, 255})
+// DisplayGameOver Запускается когда игра закончилась (выводим GAME OVER)
+func DisplayGameOver() {
+	DisplayText("GAME OVER", widthArea/3, heightWind/2, color.RGBA{R: 255, G: 255, B: 255, A: 255})
 }
 
-// Выводим всю информацию для меню
-func Draw_menu() {
+// DrawMenu Выводим всю информацию для меню
+func DrawMenu() {
 	// Заливка
-	ebitenutil.DrawRect(screen, width_area+1, 0.0, width_menu, height_wind, color_background)
+	ebitenutil.DrawRect(screen, widthArea+1, 0.0, widthMenu, heightWind, colorBackground)
 
 	// Выводим следущую фигуру
-	Display_text("Next figure:", width_area+cell_size, cell_size, color_text)
+	DisplayText("Next figure:", widthArea+cellSize, cellSize, colorText)
 	// Рисуем следущую фигуру
-	for _, next_figure_cell := range next_figure.rotates[0].form {
+	for _, nextFigureCell := range nextFigure.rotates[0].form {
 		// Сдвигаем клетки фигуры (не саму фигуру) в окошко для меню
-		cell_in_menu := next_figure_cell
-		cell_in_menu.x += width_area + width_menu/4
-		cell_in_menu.y += cell_size * 2
-		Draw_square(cell_in_menu)
+		cellInMenu := nextFigureCell
+		cellInMenu.x += widthArea + widthMenu/4
+		cellInMenu.y += cellSize * 2
+		DrawSquare(cellInMenu)
 	}
 
 	// Рисуем фигуру в кармашке
-	Display_text("Figure in pocket:", width_area+cell_size/3, cell_size*8, color_text)
+	DisplayText("Figure in pocket:", widthArea+cellSize/3, cellSize*8, colorText)
 	// Ищем фигуру из кармашка в списке фигур
-	for _, find_figure := range list_of_figures {
-		if find_figure.name == figure_in_pocket {
+	for _, findFigure := range listOfFigures {
+		if findFigure.name == figureInPocket {
 			// Рисуем фигуру из кармашка
-			for _, next_figure_cell := range find_figure.rotates[0].form {
+			for _, nextFigureCell := range findFigure.rotates[0].form {
 				// Сдвигаем клетки фигуры (не саму фигуру) в окошко для меню
-				cell_in_menu := next_figure_cell
-				cell_in_menu.x += width_area + width_menu/4
-				cell_in_menu.y += cell_size * 9
-				Draw_square(cell_in_menu)
+				cellInMenu := nextFigureCell
+				cellInMenu.x += widthArea + widthMenu/4
+				cellInMenu.y += cellSize * 9
+				DrawSquare(cellInMenu)
 			}
 			break
 		}
 	}
 
 	// Выводим количество собранных рядов
-	Display_text(fmt.Sprintf("Score: %d", game_score), width_area+cell_size, height_wind-2*cell_size, color_text)
+	DisplayText(fmt.Sprintf("Score: %d", gameScore), widthArea+cellSize, heightWind-2*cellSize, colorText)
 
 	//// Выводим время
 	//time_in_game := time.Now().Sub(time_start_game)

@@ -9,57 +9,57 @@ import (
 // Настраиваемые параметры
 
 const (
-	cell_size = 50 // Ширина одной клетки
+	cellSize = 50 // Ширина одной клетки
 
-	width_area  = cell_size * 9  // Ширина поля для фигур
-	width_menu  = cell_size * 5  // Ширина поля для дополнительй информации
-	height_wind = cell_size * 16 // Высота экрана
+	widthArea  = cellSize * 9  // Ширина поля для фигур
+	widthMenu  = cellSize * 5  // Ширина поля для дополнительй информации
+	heightWind = cellSize * 16 // Высота экрана
 
-	text_size = 40 // Разрмер отображаемого текста
-	text_dpi  = 50 // Типа тоже размер текста (что это?)
+	textSize = 40 // Разрмер отображаемого текста
+	textDpi  = 50 // Типа тоже размер текста (что это?)
 
-	const_game_speed = 500  // корость игры (миллисекунд на 1 автоматическое опускание)
-	speed_factor     = 0.99 // ВО сколько раз уменьшаем скорость
+	constGameSpeed = 500  // корость игры (миллисекунд на 1 автоматическое опускание)
+	speedFactor    = 0.99 // ВО сколько раз уменьшаем скорость
 
-	speed_move_figure  = 120 // Скорость движения фигуры по нажатию на кнопки (в миллисекундах)
-	time_keydown_space = 240 // Отдельно для space (из-за его применения)
-	time_rotate        = 230 // Отдельно для поворота (я так хочу)
+	speedMoveFigure  = 120 // Скорость движения фигуры по нажатию на кнопки (в миллисекундах)
+	timeKeydownSpace = 240 // Отдельно для space (из-за его применения)
+	timeRotate       = 230 // Отдельно для поворота (я так хочу)
 )
 
 var (
 	// Начальная скорость игры (каждые 500 миллисекунд спускаем фигуру вниз)
-	game_speed = const_game_speed
+	gameSpeed = constGameSpeed
 
-	game_score = 0 // Сколько рядов собрали
+	gameScore = 0 // Сколько рядов собрали
 
-	game_over = false
+	gameOver = false
 )
 
 // Добавляем асинхронность (это же Go)
 var wg = sync.WaitGroup{}
 
-// Надо для библиотеки
+// Game Надо для библиотеки
 type Game struct{}
 
-// Логика игры
+// Update Логика игры
 func (g *Game) Update() error {
-	if !game_over {
+	if !gameOver {
 		Control()
 	}
 
-	Exit_and_restart()
+	ExitAndRestart()
 
 	return nil
 }
 
 // Запускаем
 func main() {
-	next_figure = Deep_copy_figure(list_of_figures[rand.Intn(7)])
-	Random_figure_now()
+	nextFigure = DeepCopyFigure(listOfFigures[rand.Intn(7)])
+	RandomFigureNow()
 
 	game := &Game{}
 
-	ebiten.SetWindowSize(width_area+width_menu, height_wind)
+	ebiten.SetWindowSize(widthArea+widthMenu, heightWind)
 	ebiten.SetWindowTitle("(*^ω^) Tetris on Golang")
 
 	// Т.к. я хочу всё оптимизировать, то стирать, а затем рисовать такие-же кадры
@@ -67,5 +67,8 @@ func main() {
 	// когда происходят видимые изменения
 	ebiten.SetScreenClearedEveryFrame(false)
 
-	ebiten.RunGame(game)
+	err := ebiten.RunGame(game)
+	if err != nil {
+		return
+	}
 }

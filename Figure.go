@@ -6,63 +6,63 @@ import (
 
 var (
 	// Объявляем фигуры
-	c               = cell_size // Для краткости
-	list_of_figures = [7]Figure{
+	c             = cellSize // Для краткости
+	listOfFigures = [7]Figure{
 		{name: "O",
-			rotates: []Figure_form{
-				{[4]Cell{{0, 0, color_yellow}, {c, 0, color_yellow}, {0, c, color_yellow}, {c, c, color_yellow}}}, // Поворот 0
+			rotates: []FigureForm{
+				{[4]Cell{{0, 0, colorYellow}, {c, 0, colorYellow}, {0, c, colorYellow}, {c, c, colorYellow}}}, // Поворот 0
 			}},
 
 		{name: "L",
-			rotates: []Figure_form{
-				{[4]Cell{{0, 0, color_gray}, {0, c, color_gray}, {0, 2 * c, color_gray}, {c, 2 * c, color_gray}}}, // Поворот 0
-				{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {2 * c, 0, color_gray}, {0, c, color_gray}}},     // Поворот 1
-				{[4]Cell{{0, 0, color_gray}, {c, 0, color_gray}, {c, c, color_gray}, {c, 2 * c, color_gray}}},     // Поворот 2
-				{[4]Cell{{0, c, color_gray}, {c, c, color_gray}, {2 * c, c, color_gray}, {2 * c, 0, color_gray}}}, // Поворот 3
+			rotates: []FigureForm{
+				{[4]Cell{{0, 0, colorGray}, {0, c, colorGray}, {0, 2 * c, colorGray}, {c, 2 * c, colorGray}}}, // Поворот 0
+				{[4]Cell{{0, 0, colorGray}, {c, 0, colorGray}, {2 * c, 0, colorGray}, {0, c, colorGray}}},     // Поворот 1
+				{[4]Cell{{0, 0, colorGray}, {c, 0, colorGray}, {c, c, colorGray}, {c, 2 * c, colorGray}}},     // Поворот 2
+				{[4]Cell{{0, c, colorGray}, {c, c, colorGray}, {2 * c, c, colorGray}, {2 * c, 0, colorGray}}}, // Поворот 3
 			}},
 
 		{name: "J",
-			rotates: []Figure_form{
-				{[4]Cell{{c, 0, color_blue}, {c, c, color_blue}, {c, 2 * c, color_blue}, {0, 2 * c, color_blue}}}, // Поворот 0
-				{[4]Cell{{0, 0, color_blue}, {0, c, color_blue}, {c, c, color_blue}, {2 * c, c, color_blue}}},     // Поворот 1
-				{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {0, c, color_blue}, {0, 2 * c, color_blue}}},     // Поворот 2
-				{[4]Cell{{0, 0, color_blue}, {c, 0, color_blue}, {2 * c, 0, color_blue}, {2 * c, c, color_blue}}}, // Поворот 3
+			rotates: []FigureForm{
+				{[4]Cell{{c, 0, colorBlue}, {c, c, colorBlue}, {c, 2 * c, colorBlue}, {0, 2 * c, colorBlue}}}, // Поворот 0
+				{[4]Cell{{0, 0, colorBlue}, {0, c, colorBlue}, {c, c, colorBlue}, {2 * c, c, colorBlue}}},     // Поворот 1
+				{[4]Cell{{0, 0, colorBlue}, {c, 0, colorBlue}, {0, c, colorBlue}, {0, 2 * c, colorBlue}}},     // Поворот 2
+				{[4]Cell{{0, 0, colorBlue}, {c, 0, colorBlue}, {2 * c, 0, colorBlue}, {2 * c, c, colorBlue}}}, // Поворот 3
 			}},
 
 		{name: "I",
-			rotates: []Figure_form{
-				{[4]Cell{{0, 0, color_goluboy}, {0, c, color_goluboy}, {0, 2 * c, color_goluboy}, {0, 3 * c, color_goluboy}}}, // Поворот 0
-				{[4]Cell{{0, 0, color_goluboy}, {c, 0, color_goluboy}, {2 * c, 0, color_goluboy}, {3 * c, 0, color_goluboy}}}, // Поворот 1
+			rotates: []FigureForm{
+				{[4]Cell{{0, 0, colorGoluboy}, {0, c, colorGoluboy}, {0, 2 * c, colorGoluboy}, {0, 3 * c, colorGoluboy}}}, // Поворот 0
+				{[4]Cell{{0, 0, colorGoluboy}, {c, 0, colorGoluboy}, {2 * c, 0, colorGoluboy}, {3 * c, 0, colorGoluboy}}}, // Поворот 1
 			}},
 
 		{name: "T",
-			rotates: []Figure_form{
-				{[4]Cell{{0, 0, color_violet}, {c, 0, color_violet}, {2 * c, 0, color_violet}, {c, c, color_violet}}}, // Поворот 0
-				{[4]Cell{{c, 0, color_violet}, {c, c, color_violet}, {c, 2 * c, color_violet}, {0, c, color_violet}}}, // Поворот 1
-				{[4]Cell{{c, 0, color_violet}, {0, c, color_violet}, {c, c, color_violet}, {2 * c, c, color_violet}}}, // Поворот 2
-				{[4]Cell{{0, 0, color_violet}, {0, c, color_violet}, {0, 2 * c, color_violet}, {c, c, color_violet}}}, // Поворот 3
+			rotates: []FigureForm{
+				{[4]Cell{{0, 0, colorViolet}, {c, 0, colorViolet}, {2 * c, 0, colorViolet}, {c, c, colorViolet}}}, // Поворот 0
+				{[4]Cell{{c, 0, colorViolet}, {c, c, colorViolet}, {c, 2 * c, colorViolet}, {0, c, colorViolet}}}, // Поворот 1
+				{[4]Cell{{c, 0, colorViolet}, {0, c, colorViolet}, {c, c, colorViolet}, {2 * c, c, colorViolet}}}, // Поворот 2
+				{[4]Cell{{0, 0, colorViolet}, {0, c, colorViolet}, {0, 2 * c, colorViolet}, {c, c, colorViolet}}}, // Поворот 3
 			}},
 
 		{name: "Z",
-			rotates: []Figure_form{
-				{[4]Cell{{0, 0, color_red}, {c, 0, color_red}, {c, c, color_red}, {2 * c, c, color_red}}}, // Поворот 0
-				{[4]Cell{{c, 0, color_red}, {c, c, color_red}, {0, c, color_red}, {0, 2 * c, color_red}}}, // Поворот 1
+			rotates: []FigureForm{
+				{[4]Cell{{0, 0, colorRed}, {c, 0, colorRed}, {c, c, colorRed}, {2 * c, c, colorRed}}}, // Поворот 0
+				{[4]Cell{{c, 0, colorRed}, {c, c, colorRed}, {0, c, colorRed}, {0, 2 * c, colorRed}}}, // Поворот 1
 			}},
 
 		{name: "S",
-			rotates: []Figure_form{
-				{[4]Cell{{0, c, color_green}, {c, c, color_green}, {c, 0, color_green}, {2 * c, 0, color_green}}}, // Поворот 0
-				{[4]Cell{{0, 0, color_green}, {0, c, color_green}, {c, c, color_green}, {c, 2 * c, color_green}}}, // Поворот 1
+			rotates: []FigureForm{
+				{[4]Cell{{0, c, colorGreen}, {c, c, colorGreen}, {c, 0, colorGreen}, {2 * c, 0, colorGreen}}}, // Поворот 0
+				{[4]Cell{{0, 0, colorGreen}, {0, c, colorGreen}, {c, c, colorGreen}, {c, 2 * c, colorGreen}}}, // Поворот 1
 			}},
 	}
 
-	figure_now = Figure{}
+	figureNow = Figure{}
 
 	// Какой сейчас поворот у фигуры
-	index_rotate = 0
+	indexRotate = 0
 
 	// Записываем все упавшие клетки
-	fallen_cells = []Cell{}
+	fallenCells []Cell
 )
 
 type Cell struct {
@@ -70,66 +70,66 @@ type Cell struct {
 	color color.RGBA
 }
 
-type Figure_form struct {
+type FigureForm struct {
 	form [4]Cell
 }
 
 type Figure struct {
 	name    string
-	rotates []Figure_form
+	rotates []FigureForm
 }
 
-// Сдвигаем вниз
-func (f *Figure) Move_down() (was_collision bool) {
+// MoveDown Сдвигаем вниз
+func (f *Figure) MoveDown() (wasCollision bool) {
 	// Изменение текущей фигуры, перерисовываем рабочий экран
-	change_in_area = true
+	changeInArea = true
 
-	was_collision = false
+	wasCollision = false
 	// Сдвигаем все повороты вниз
 	// Все, кроме текущего поворота, делаем невидимым для упавших клеток
 	for i, rotate := range f.rotates {
 		ghost := true
-		if i == index_rotate {
+		if i == indexRotate {
 			ghost = false
 		}
 
-		if Move_down_rotate(&rotate) && !ghost {
-			was_collision = true
+		if MoveDownRotate(&rotate) && !ghost {
+			wasCollision = true
 		}
 
 		f.rotates[i] = rotate
 	}
 
-	if was_collision {
+	if wasCollision {
 		Collision()
 	}
 
-	return was_collision
+	return wasCollision
 }
 
-// Сдвигаем один из поворотов фигуры
-func Move_down_rotate(rotate *Figure_form) (was_collision bool) {
+// MoveDownRotate Сдвигаем один из поворотов фигуры
+func MoveDownRotate(rotate *FigureForm) (wasCollision bool) {
 	// Если какая-то клетка находится на полу, то у нас коллизия
-	for _, figure_cell := range rotate.form {
-		if figure_cell.y == height_wind-cell_size {
+	for _, figureCell := range rotate.form {
+		if figureCell.y == heightWind-cellSize {
 			return true
 		}
 	}
 
 	// Опускаем
-	for i, figure_cell := range rotate.form {
-		moved_cell := figure_cell
-		moved_cell.y += cell_size
-		rotate.form[i] = moved_cell
+	for i, figureCell := range rotate.form {
+		movedCell := figureCell
+		movedCell.y += cellSize
+		rotate.form[i] = movedCell
 	}
 
 	// Если обнаруживается упавшая клетка внутри (уже опущенной) фигуры,
 	// то поднимаем фигуру назад
-	if Rotate_in_fallen_cells(*rotate) {
-		for i, figure_cell := range rotate.form {
-			moved_cell := figure_cell
-			moved_cell.y -= cell_size
-			rotate.form[i] = moved_cell
+	if RotateInFallenCells(*rotate) {
+		for i, figureCell := range rotate.form {
+			movedCell := figureCell
+			movedCell.y -= cellSize
+			rotate.form[i] = movedCell
 		}
 		return true
 	}
@@ -137,38 +137,38 @@ func Move_down_rotate(rotate *Figure_form) (was_collision bool) {
 	return false
 }
 
-// Сдвигаем влево
-func (f *Figure) Move_left() {
+// MoveLeft Сдвигаем влево
+func (f *Figure) MoveLeft() {
 	// Изменение текущей фигуры, перерисовываем рабочий экран
-	change_in_area = true
+	changeInArea = true
 
 	// Сдвигаем каждый поворот влево
 	for i, rotate := range f.rotates {
-		possible_move_left := true
+		possibleMoveLeft := true
 
 		// Если какая-то клетка находится около стены, то не сдвигаем
-		for _, figure_cell := range rotate.form {
-			if figure_cell.x == 0 {
-				possible_move_left = false
+		for _, figureCell := range rotate.form {
+			if figureCell.x == 0 {
+				possibleMoveLeft = false
 			}
 		}
 
-		if possible_move_left {
+		if possibleMoveLeft {
 			// Сдвигаем все клетки
-			for i, figure_cell := range rotate.form {
-				moved_cell := figure_cell
-				moved_cell.x -= cell_size
-				rotate.form[i] = moved_cell
+			for i, figureCell := range rotate.form {
+				movedCell := figureCell
+				movedCell.x -= cellSize
+				rotate.form[i] = movedCell
 			}
 
 			// Если обнаруживается упавшая клетка внутри (уже сдвинутой) фигуры,
 			// то возвращаем фигуру назад
-			if Rotate_in_fallen_cells(rotate) {
+			if RotateInFallenCells(rotate) {
 				// Сдвигаем все клетки
-				for i, figure_cell := range rotate.form {
-					moved_cell := figure_cell
-					moved_cell.x += cell_size
-					rotate.form[i] = moved_cell
+				for i, figureCell := range rotate.form {
+					movedCell := figureCell
+					movedCell.x += cellSize
+					rotate.form[i] = movedCell
 				}
 			}
 
@@ -177,38 +177,38 @@ func (f *Figure) Move_left() {
 	}
 }
 
-// Сдвигаем вправо
-func (f *Figure) Move_right() {
+// MoveRight Сдвигаем вправо
+func (f *Figure) MoveRight() {
 	// Изменение текущей фигуры, перерисовываем рабочий экран
-	change_in_area = true
+	changeInArea = true
 
 	// Сдвигаем все повороты вправо
 	for i, rotate := range f.rotates {
-		possible_move_right := true
+		possibleMoveRight := true
 
 		// Если какая-то клетка находится около стены, то не сдвигаем
-		for _, figure_cell := range rotate.form {
-			if figure_cell.x == width_area-cell_size {
-				possible_move_right = false
+		for _, figureCell := range rotate.form {
+			if figureCell.x == widthArea-cellSize {
+				possibleMoveRight = false
 			}
 		}
 
-		if possible_move_right {
+		if possibleMoveRight {
 			// Сдвигаем все клетки
-			for i, figure_cell := range rotate.form {
-				moved_cell := figure_cell
-				moved_cell.x += cell_size
-				rotate.form[i] = moved_cell
+			for i, figureCell := range rotate.form {
+				movedCell := figureCell
+				movedCell.x += cellSize
+				rotate.form[i] = movedCell
 			}
 
 			// Если обнаруживается упавшая клетка внутри (уже сдвинутой) фигуры,
 			// то возвращаем фигуру назад
-			if Rotate_in_fallen_cells(rotate) {
+			if RotateInFallenCells(rotate) {
 				// Сдвигаем все клетки
-				for i, figure_cell := range rotate.form {
-					moved_cell := figure_cell
-					moved_cell.x -= cell_size
-					rotate.form[i] = moved_cell
+				for i, figureCell := range rotate.form {
+					movedCell := figureCell
+					movedCell.x -= cellSize
+					rotate.form[i] = movedCell
 				}
 			}
 
@@ -217,35 +217,35 @@ func (f *Figure) Move_right() {
 	}
 }
 
-// Проверяем, находится ли фигура в упавших клетках
-func Rotate_in_fallen_cells(rotate Figure_form) bool {
-	rotate_in_cells := false
-	for _, figure_cell := range rotate.form {
-		for _, fallen_cell := range fallen_cells {
+// RotateInFallenCells Проверяем, находится ли фигура в упавших клетках
+func RotateInFallenCells(rotate FigureForm) bool {
+	rotateInCells := false
+	for _, figureCell := range rotate.form {
+		for _, fallenCell := range fallenCells {
 			wg.Add(1)
-			go func(figure_cell, fallen_cell Cell) {
-				if figure_cell.x == fallen_cell.x &&
-					figure_cell.y == fallen_cell.y {
-					rotate_in_cells = true
+			go func(figureCell, fallenCell Cell) {
+				if figureCell.x == fallenCell.x &&
+					figureCell.y == fallenCell.y {
+					rotateInCells = true
 				}
 				wg.Done()
-			}(figure_cell, fallen_cell)
+			}(figureCell, fallenCell)
 		}
 	}
 	wg.Wait()
 
-	return rotate_in_cells
+	return rotateInCells
 }
 
-// Поворачиваем фигуру
+// Rotate Поворачиваем фигуру
 func (f *Figure) Rotate() {
 	// Изменение текущей фигуры, перерисовываем рабочий экран
-	change_in_area = true
+	changeInArea = true
 
-	rotated_figure := figure_now.rotates[(index_rotate+1)%len(figure_now.rotates)]
+	rotatedFigure := figureNow.rotates[(indexRotate+1)%len(figureNow.rotates)]
 
 	// Поворачиваем, если не задевает упавшие клетки
-	if !Rotate_in_fallen_cells(rotated_figure) {
-		index_rotate = (index_rotate + 1) % len(figure_now.rotates)
+	if !RotateInFallenCells(rotatedFigure) {
+		indexRotate = (indexRotate + 1) % len(figureNow.rotates)
 	}
 }
